@@ -1,0 +1,28 @@
+
+# Database Configuration
+DB_NAME =""
+DB_USERNAME =""
+DB_PASSWORD =""
+DB_HOST =""
+DB_PORT =""
+DB_DIALECT =""
+DB_POOL_MIN=""
+DB_POOL_MAX=""
+
+# App Configuration
+APP_HOST="localhost"
+APP_PORT="3000"
+API_DOCS_PATH="/api-docs"
+NODE_ENV="development"
+
+# Logging Configuration
+LOG_FORMAT="dev"
+LOG_DIR ="logs"
+LOG_LEVEL="debug"
+
+# CORS Configuration
+CORS_ORIGIN = "*"
+CORS_CREDENTIALS ="0"
+
+
+
