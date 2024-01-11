@@ -48,7 +48,6 @@ const authMiddleware = (req: any, res: Response, next: NextFunction) => {
 						req.user = findUser;
 						next();
 					} catch (error) {
-            console.log(error);
 						res.status(500).send({
 							code: 0,
 							message: 'Internal Server Error',
