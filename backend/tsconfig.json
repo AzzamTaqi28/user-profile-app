@@ -35,6 +35,6 @@
 			"@config/*": ["config/*"]
 		}
 	},
-	"include": ["src/**/*.ts", "src/**/*.json", ".env"],
+	"include": ["src/**/*.ts", "src/**/*.json", ".env", "src/config/**/*.ts"],
 	"exclude": ["node_modules"]
 }
