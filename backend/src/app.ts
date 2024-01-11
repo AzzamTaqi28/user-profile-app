@@ -25,7 +25,7 @@ class App {
 	constructor(routes: RouteMap[]) {
 		this.app = express();
 		this.path = '/api';
-		this.apiPath = process.env.API_DOCS_PATH || '/api-docs';
+		this.apiPath = process.env.API_DOCS_PATH || 'api-docs';
 		this.env = process.env.NODE_ENV || 'development';
 		this.port = Number(process.env.APP_PORT) || 3030;
 		this.host = process.env.APP_HOST || 'localhost';
@@ -38,16 +38,18 @@ class App {
 	}
 
 	public listen() {
-		logger.info(`========================================================`);
-		logger.info(`============== User Profile REST API ==============`);
-		logger.info(`=================== ENV: ${this.env} ===================`);
-		logger.info(
-			`🚀 API listening on http://${process.env.APP_HOST}:${this.port}`
-		);
-		logger.info(
-			`🚀 API Docs listening on http://${process.env.APP_HOST}:${this.port}/${this.apiPath}`
-		);
-		logger.info(`========================================================\n`);
+		this.app.listen(this.port, () => {
+			logger.info(`========================================================`);
+			logger.info(`============== User Profile REST API ==============`);
+			logger.info(`=================== ENV: ${this.env} ===================`);
+			logger.info(
+				`🚀 API listening on http://${process.env.APP_HOST}:${this.port}`
+			);
+			logger.info(
+				`🚀 API Docs listening on http://${process.env.APP_HOST}:${this.port}/${this.apiPath}`
+			);
+			logger.info(`========================================================\n`);
+		});
 	}
 
 	private connectToDatabase() {
@@ -58,7 +60,7 @@ class App {
 		this.app.use(morgan(process.env.LOG_FORMAT, { stream }));
 		this.app.use(
 			cors({
-				origin: process.env.CORS_ORIGIN || '*',
+				origin: process.env.CORS_ORIGIN || true,
 				credentials: Number(process.env.CORS_CREDENTIALS) ? true : false,
 			})
 		);
@@ -81,7 +83,7 @@ class App {
 		const options = Config(this);
 		const specs = swaggerJSDoc(options);
 		this.app.use(
-			'/api-docs',
+			`/${this.apiPath}`,
 			swaggerUi.serveFiles(specs, {
 				swaggerOptions: {
 					docExpansion: 'none',

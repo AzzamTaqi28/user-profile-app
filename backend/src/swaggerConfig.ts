@@ -22,7 +22,7 @@ export const Config = (param: any) => {
 			},
 			servers: [
 				{
-					url: `http://localhost:${param.port.internal}${param.path}`,
+					url: `http://localhost:${param.port}${param.path}`,
 				},
 			],
 			components: {

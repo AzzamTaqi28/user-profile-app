@@ -1,5 +1,6 @@
 import Sequelize from 'sequelize';
 import { logger } from '@/config/logger';
+import UserModel from '@/models/user.model';
 
 type Dialect =
 	| 'mysql'
@@ -31,6 +32,7 @@ const sequelize = new Sequelize.Sequelize(database, username, password, {
 		underscored: true,
 		freezeTableName: false,
 		timestamps: true,
+		paranoid: true,
 	},
 	pool: {
 		min: poolMin,
@@ -46,6 +48,7 @@ const sequelize = new Sequelize.Sequelize(database, username, password, {
 sequelize.authenticate();
 
 const DB = {
+	User: UserModel(sequelize),
 	sequelize,
 	Sequelize,
 };
