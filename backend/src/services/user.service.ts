@@ -10,18 +10,48 @@ import { Op } from 'sequelize';
 class UserService {
 	public User = DB.User;
 
-	public async findUser(username: any): Promise<User> {
+	public async findUserById(id: number): Promise<User> {
 		try {
-			const config = {
-				where: {
-					[Op.or]: {
-						email: username,
-						phone: username,
-					},
-				},
-			};
-			const user: User = await this.User.findOne(config);
+			const user: User = await this.User.findByPk(id, {
+				attributes: { exclude: ['password'] },
+			});
 			return user;
+		} catch (error) {
+			throw error;
+		}
+	}
+
+	public async updateUser(data: any): Promise<any> {
+		try {
+			const user = await this.User.count({
+				where: { id: data.id },
+			});
+
+			if (!user) {
+				throw new HttpException(400, 'User not found');
+			}
+			//get the value from data that is not empty
+			const updateData = {};
+			Object.keys(data).forEach((key) => {
+				if (data[key]) {
+					if (key === 'password') {
+						const salt = bcrypt.genSaltSync(10);
+						const hash = bcrypt.hashSync(data[key], salt);
+						updateData[key] = hash;
+					}
+					updateData[key] = data[key];
+				}
+			});
+
+			const updated = await this.User.update(updateData, {
+				where: { id: data.id },
+			});
+
+			if (!updated) {
+				throw new HttpException(500, 'Failed to update user');
+			}
+
+			return updated;
 		} catch (error) {
 			throw error;
 		}
@@ -48,6 +78,7 @@ class UserService {
 			if (isPhoneExist > 0) {
 				throw new HttpException(409, `Phone ${userData.phone} already exists`);
 			}
+
 			userData.password = await bcrypt.hash(userData.password, 10);
 			const user: User = await this.User.create(userData);
 			return user;
@@ -84,11 +115,11 @@ class UserService {
 			};
 
 			const token = generateAccessToken(payload);
-			
+
 			const result = {
 				token: token,
-				user: payload
-			}
+				user: payload,
+			};
 
 			return result;
 		} catch (error) {
