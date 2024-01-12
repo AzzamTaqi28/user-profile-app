@@ -13,6 +13,8 @@ import morgan from 'morgan';
 import { Config } from 'swaggerConfig';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
+import path from 'path';
+import fs from 'fs';
 
 class App {
 	public app: express.Application;
@@ -35,6 +37,7 @@ class App {
 		this.initializeRoutes(routes);
 		this.initializeSwagger();
 		this.initializeErrorHandling();
+		this.checkAndCreateUploadsFolder();
 	}
 
 	public listen() {
@@ -69,6 +72,15 @@ class App {
 		this.app.use(express.json());
 		this.app.use(express.urlencoded({ extended: true }));
 		this.app.use(bodyParser.urlencoded({ extended: true }));
+		this.app.use('/uploads', express.static('uploads'));
+	}
+
+	private checkAndCreateUploadsFolder() {
+		const uploadDir: string = path.join(__dirname, 'uploads');
+
+		if (!fs.existsSync(uploadDir)) {
+			fs.mkdirSync(uploadDir);
+		}
 	}
 
 	private initializeRoutes(routesMap: RouteMap[]) {
