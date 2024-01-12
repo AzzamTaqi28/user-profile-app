@@ -6,7 +6,7 @@
 	"scripts": {
 		"start:dev": "nodemon",
 		"start": "node src/server.ts",
-		"migrate": "npx ts-node ./node_modules/sequelize-cli/lib/sequelize db:migrate --config src/config/sequelize.config.ts"
+		"migrate": "npx ts-node ./node_modules/sequelize-cli/lib/sequelize db:migrate"
 	},
 	"keywords": [],
 	"author": "",
