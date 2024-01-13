@@ -27,6 +27,68 @@ class UserService {
 		}
 	}
 
+	public async updateUser(data: any): Promise<any> {
+		try {
+			const user = await this.User.count({
+				where: { id: data.id },
+			});
+
+			if (!user) {
+				throw new HttpException(400, 'User not found');
+			}
+
+			//get the value from data that is not empty
+			const updateData: any = {};
+			Object.keys(data).forEach((key) => {
+				if (data[key]) {
+					if (key === 'password') {
+						const salt = bcrypt.genSaltSync(10);
+						const hash = bcrypt.hashSync(data[key], salt);
+						updateData[key] = hash;
+					}
+					updateData[key] = data[key];
+				}
+			});
+			const isEmailExist: number = await this.User.count({
+				where: {
+					email: updateData.email,
+					id: {
+						[Op.ne]: data.id,
+					},
+				},
+			});
+
+			const isPhoneExist: number = await this.User.count({
+				where: {
+					phone: updateData.phone,
+					id: {
+						[Op.ne]: data.id,
+					},
+				},
+			});
+
+			if (isEmailExist > 0) {
+				throw new HttpException(409, `Email ${updateData.email} already used`);
+			}
+
+			if (isPhoneExist > 0) {
+				throw new HttpException(409, `Phone ${updateData.phone} already used`);
+			}
+
+			const updated = await this.User.update(updateData, {
+				where: { id: data.id },
+			});
+
+			if (!updated) {
+				throw new HttpException(500, 'Failed to update user');
+			}
+
+			return updated;
+		} catch (error) {
+			throw error;
+		}
+	}
+
 	public async registerUser(userData: User): Promise<User> {
 		try {
 			const isEmailExist: number = await this.User.count({
