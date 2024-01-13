@@ -48,7 +48,14 @@ export default function SignIn() {
 				email: data.get('email'),
 				password: data.get('password'),
 			});
-			const accessToken = response?.data?.token;
+			const accessToken = response?.data?.data.token;
+			if(!accessToken) {
+				setErrCode(-1);
+				setErrorMessage('Login failed');
+				return;
+			}
+			
+
 			setAuth({ accessToken });
 			navigate(from, { replace: true });
 			localStorage.setItem('accessToken', accessToken);

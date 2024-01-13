@@ -11,7 +11,6 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from '../api/axios';
-import useAuth from '../hooks/useAuth';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 
@@ -31,13 +30,12 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
-	const { setAuth } = useAuth();
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [errorMessage, setErrorMessage] = React.useState([]);
 	const [errCode, setErrCode] = React.useState('');
 
-	const from = location.state?.from?.pathname || '/profile';
+	const from = location.state?.from?.pathname || '/';
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -46,12 +44,14 @@ export default function SignUp() {
 			const response = await axios.post('auth/register', {
 				name: data.get('name'),
 				email: data.get('email'),
+				phone: data.get('phone'),
 				password: data.get('password'),
 			});
-			const accessToken = response?.data?.token;
-			setAuth({ accessToken });
-			localStorage.setItem('accessToken', accessToken);
-			navigate(from, { replace: true });
+			const code = response?.data?.code;
+
+			if (code === 1) {
+				navigate(from, { replace: true });
+			}
 		} catch (error) {
 			const errorCode = error?.response?.data?.code;
 			const errorMessages = error?.response?.data?.message;
