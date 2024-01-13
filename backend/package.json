@@ -5,7 +5,7 @@
 	"main": "server.ts",
 	"scripts": {
 		"start:dev": "nodemon",
-		"start": "node src/server.ts",
+		"start": "ts-node -r tsconfig-paths/register --logError src/server.ts",
 		"migrate": "npx ts-node ./node_modules/sequelize-cli/lib/sequelize db:migrate"
 	},
 	"keywords": [],
