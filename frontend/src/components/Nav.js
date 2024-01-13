@@ -85,7 +85,6 @@ function MobileButton() {
 
 export default function Example() {
 	const [openNav, setOpenNav] = useState(false);
-    	const { auth } = useAuth();
 
 	useEffect(() => {
 		window.addEventListener(
@@ -96,7 +95,7 @@ export default function Example() {
 
 	const navList = (
 		<ul className='mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6'>
-            {localStorage.getItem('accessToken')?.length > 0 || auth?.accessToken ? (
+            {localStorage.getItem('accessToken')?.length === 0 ? (
                 <Typography
 				as='li'
 				variant='small'
