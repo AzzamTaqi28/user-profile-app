@@ -24,27 +24,27 @@ module.exports = {
 				type: Sequelize.STRING,
 				allowNull: false,
 			},
-			imageName: {
+			image_name: {
 				type: Sequelize.STRING,
 				allowNull: true,
 			},
-			imageExtension: {
+			image_extension: {
 				type: Sequelize.STRING,
 				allowNull: true,
 			},
-			createdAt: {
+			created_at: {
 				type: Sequelize.DATE,
 				allowNull: true,
 				defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
 			},
-			updatedAt: {
+			updated_at: {
 				type: Sequelize.DATE,
 				allowNull: true,
 				defaultValue: Sequelize.literal(
 					'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'
 				),
 			},
-			deletedAt: {
+			deleted_at: {
 				type: Sequelize.DATE,
 				allowNull: true,
 			},
