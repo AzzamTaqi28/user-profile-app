@@ -1,18 +1,18 @@
 
 # Database Configuration
-DB_NAME =""
-DB_USERNAME =""
-DB_PASSWORD =""
-DB_HOST =""
-DB_PORT =""
-DB_DIALECT =""
-DB_POOL_MIN=""
-DB_POOL_MAX=""
+DB_NAME ="hp_test"
+DB_USERNAME ="root"
+DB_PASSWORD ="taqi1625"
+DB_HOST ="localhost"
+DB_PORT ="3306"
+DB_DIALECT ="mysql"
+DB_POOL_MIN="0"
+DB_POOL_MAX="5"
 
 # App Configuration
 APP_HOST="localhost"
-APP_PORT="3000"
-API_DOCS_PATH="/api-docs"
+APP_PORT="3001"
+API_DOCS_PATH="api-docs"
 NODE_ENV="development"
 
 # Logging Configuration
@@ -21,8 +21,12 @@ LOG_DIR ="logs"
 LOG_LEVEL="debug"
 
 # CORS Configuration
-CORS_ORIGIN = "*"
-CORS_CREDENTIALS ="0"
+CORS_ORIGIN ="http://localhost:3000"
+CORS_CREDENTIALS ="1"
 
+#JWT Configuration
+JWT_SECRET_KEY ="Rzl1XGwesfD00jA2YBkQptUDlgGGYzq5"
+JWT_SUB="VVKzFXXLHi"
+JWT_EXPIRES_IN="30d"
 
 
