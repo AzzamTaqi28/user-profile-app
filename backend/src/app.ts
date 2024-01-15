@@ -38,6 +38,7 @@ class App {
 		this.initializeSwagger();
 		this.initializeErrorHandling();
 		this.checkAndCreateUploadsFolder();
+		this.app.use('/uploads', express.static('uploads'));
 	}
 
 	public listen() {
@@ -63,20 +64,19 @@ class App {
 		this.app.use(morgan(process.env.LOG_FORMAT, { stream }));
 		this.app.use(
 			cors({
-				origin: process.env.CORS_ORIGIN || true,
+				origin: process.env.CORS_ORIGIN || '*',
 				credentials: Number(process.env.CORS_CREDENTIALS) ? true : false,
 			})
 		);
 		this.app.use(hpp());
-		this.app.use(helmet());
+		this.app.use(helmet({ crossOriginResourcePolicy: false }));
 		this.app.use(express.json());
 		this.app.use(express.urlencoded({ extended: true }));
 		this.app.use(bodyParser.urlencoded({ extended: true }));
-		this.app.use('/uploads', express.static('uploads'));
 	}
 
 	private checkAndCreateUploadsFolder() {
-		const uploadDir: string = path.join(__dirname, 'uploads');
+		const uploadDir: string = path.join(__dirname, '../uploads');
 
 		if (!fs.existsSync(uploadDir)) {
 			fs.mkdirSync(uploadDir);

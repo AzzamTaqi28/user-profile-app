@@ -4,7 +4,7 @@ import path from 'path';
 import { Request, Response, NextFunction } from 'express';
 import { HttpException } from '@/exceptions/HttpException';
 
-const uploadPath = path.join(__dirname, '../uploads');
+const uploadPath = path.join(__dirname, '../../uploads');
 
 const multerStorage = multer.diskStorage({
 	destination: (req, file, cb) => {
